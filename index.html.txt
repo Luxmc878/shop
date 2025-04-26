@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Owl Shop - Bán Acc Game Miễn Phí</title>
+    <style>
+        body { font-family: Arial; background: #f0f2f5; margin: 0; }
+        header, footer { background: #4a69bd; color: white; text-align: center; padding: 15px; }
+        nav { text-align: center; background: #82ccdd; padding: 10px; }
+        nav a { margin: 0 15px; color: black; text-decoration: none; font-weight: bold; }
+        section { padding: 20px; }
+        input, select, button { margin: 5px 0; padding: 10px; width: 100%; }
+        .form-box { max-width: 400px; margin: auto; background: white; padding: 20px; border-radius: 10px; box-shadow: 0 0 10px #ccc; }
+        .hidden { display: none; }
+    </style>
+</head>
+<body>
+
+<header>
+    🦉 Owl Shop - Bán Acc Game Miễn Phí 🦉
+</header>
+
+<nav>
+    <a href="#" onclick="showPage('home')">Giới thiệu</a>
+    <a href="#" onclick="showPage('register')">Tạo tài khoản</a>
+    <a href="#" onclick="showPage('login')">Đăng nhập</a>
+    <a href="#" onclick="showPage('recharge')">Nạp thẻ</a>
+    <a href="#" onclick="showPage('account')">Nhận Acc</a>
+</nav>
+
+<section id="home">
+    <h2>Chào mừng đến với Owl Shop!</h2>
+    <p>Chuyên cung cấp tài khoản game miễn phí và giá rẻ. Đăng ký, nạp thẻ và nhận acc cực nhanh!</p>
+</section>
+
+<section id="register" class="hidden">
+    <div class="form-box">
+        <h2>Tạo tài khoản</h2>
+        <input type="text" id="reg_user" placeholder="Tên đăng nhập" required>
+        <input type="password" id="reg_pass" placeholder="Mật khẩu" required>
+        <button onclick="register()">Đăng ký</button>
+        <p id="register_msg"></p>
+    </div>
+</section>
+
+<section id="login" class="hidden">
+    <div class="form-box">
+        <h2>Đăng nhập</h2>
+        <input type="text" id="login_user" placeholder="Tên đăng nhập" required>
+        <input type="password" id="login_pass" placeholder="Mật khẩu" required>
+        <button onclick="login()">Đăng nhập</button>
+        <p id="login_msg"></p>
+    </div>
+</section>
+
+<section id="recharge" class="hidden">
+    <div class="form-box">
+        <h2>Nạp thẻ điện thoại</h2>
+        <select id="card_type">
+            <option value="viettel">Viettel</option>
+            <option value="vina">Vinaphone</option>
+            <option value="mobi">Mobifone</option>
+        </select>
+        <input type="text" id="card_pin" placeholder="Mã thẻ" required>
+        <input type="text" id="card_seri" placeholder="Số seri" required>
+        <button onclick="recharge()">Gửi thẻ</button>
+        <p id="recharge_msg"></p>
+    </div>
+</section>
+
+<section id="account" class="hidden">
+    <div class="form-box">
+        <h2>Nhận acc game miễn phí</h2>
+        <div id="account_list">
+            <p>Vui lòng đăng nhập và nạp thẻ để nhận acc!</p>
+        </div>
+    </div>
+</section>
+
+<footer>
+    © 2025 Owl Shop - Chia sẻ acc game miễn phí
+</footer>
+
+<script>
+    let currentUser = null;
+    let hasRecharged = false;
+
+    function showPage(page) {
+        document.querySelectorAll('section').forEach(sec => sec.classList.add('hidden'));
+        document.getElementById(page).classList.remove('hidden');
+    }
+
+    function register() {
+        const user = document.getElementById('reg_user').value;
+        const pass = document.getElementById('reg_pass').value;
+        if (user && pass) {
+            localStorage.setItem('user', user);
+            localStorage.setItem('pass', pass);
+            document.getElementById('register_msg').innerText = 'Đăng ký thành công!';
+        } else {
+            document.getElementById('register_msg').innerText = 'Vui lòng điền đủ thông tin!';
+        }
+    }
+
+    function login() {
+        const user = document.getElementById('login_user').value;
+        const pass = document.getElementById('login_pass').value;
+        if (user === localStorage.getItem('user') && pass === localStorage.getItem('pass')) {
+            currentUser = user;
+            document.getElementById('login_msg').innerText = 'Đăng nhập thành công!';
+        } else {
+            document.getElementById('login_msg').innerText = 'Sai tài khoản hoặc mật khẩu!';
+        }
+    }
+
+    function recharge() {
+        const pin = document.getElementById('card_pin').value;
+        const seri = document.getElementById('card_seri').value;
+        if (currentUser && pin && seri) {
+            hasRecharged = true;
+            document.getElementById('recharge_msg').innerText = 'Nạp thẻ thành công!';
+        } else {
+            document.getElementById('recharge_msg').innerText = 'Vui lòng đăng nhập và điền đủ thông tin!';
+        }
+    }
+
+    function showAccount() {
+        const list = document.getElementById('account_list');
+        if (currentUser && hasRecharged) {
+            list.innerHTML = `
+                <p><strong>Liên Quân Mobile</strong>: lienquanfree01 / 123456</p>
+                <p><strong>Free Fire</strong>: freefirefree02 / 654321</p>
+                <p><strong>Genshin Impact</strong>: genshinfree03 / abc123</p>
+            `;
+        } else {
+            list.innerHTML = `<p>Vui lòng đăng nhập và nạp thẻ để nhận acc!</p>`;
+        }
+    }
+
+    document.querySelector('a[href="#"]').addEventListener('click', showAccount);
+</script>
+
+</body>
+</html>
